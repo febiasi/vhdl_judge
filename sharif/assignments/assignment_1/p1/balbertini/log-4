@@ -1,0 +1,19 @@
+cd /home/sharif/tester;
+./tester.sh /home/sharif/assignments/assignment_1/p1 'balbertini' '1' '1-4' cpp 0.5 1 50000 1048576 diff -bB 1 1 1 0 1 0
+Starting tester...
+Wed Aug 26 16:54:16 BRT 2015
+Language: cpp
+Time Limit: 0.5 s
+Memory Limit: 50000 kB
+Output size limit: 1048576 bytes
+EasySandbox: true
+C/C++ Shield: true
+Compiling as cpp
+Enabling EasySandbox
+EasySandbox is not built. Disabling EasySandbox...
+Enabling Shield For C/C++
+Compiled. Exit Code=127  Execution Time: 35 ms
+Compile Error
+./tester.sh: line 318: g++: command not found
+
+Total Execution Time: 152 ms
