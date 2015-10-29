@@ -1,0 +1,13 @@
+cd /home/sharif/tester;
+./tester.sh /home/sharif/assignments/assignment_4/p1 'balbertini' 'pcs7400' 'pcs7400-1' vhdl 0 1 50000 1048576 diff -bB 1 1 0 0 1 0
+Starting tester...
+Mon Oct 26 15:38:23 BRST 2015
+Language: vhdl
+Time Limit: 0 s
+Memory Limit: 50000 kB
+Output size limit: 1048576 bytes
+Syntax checked. Exit Code=1  Execution Time: 79 ms
+Compiling Error
+
+
+Total Execution Time: 109 ms

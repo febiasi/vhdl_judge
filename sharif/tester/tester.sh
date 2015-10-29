@@ -373,6 +373,7 @@ fi
 if [ "$EXT" = "vhdl" ]; then
 	cp $PROBLEMPATH/$UN/$FILENAME.vhdl $FILENAME.vhdl
 	ghdl -a $FILENAME.vhdl >/dev/null 2>cerr
+	ghdl -e $FILENAME
 	EXITCODE=$?
 	COMPILE_END_TIME=$(($(date +%s%N)/1000000));
 	shj_log "Syntax checked. Exit Code=$EXITCODE  Execution Time: $((COMPILE_END_TIME-COMPILE_BEGIN_TIME)) ms"
@@ -381,7 +382,7 @@ if [ "$EXT" = "vhdl" ]; then
 		shj_log "$(cat cerr | head -10)"
 		cd ..
 		rm -r $JAIL >/dev¹null 2>/dev/null
-		shj_finish "Compiling Error"
+		shj_finish "Error"
 	fi
 fi
 
