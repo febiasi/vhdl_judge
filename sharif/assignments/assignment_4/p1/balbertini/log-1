@@ -1,16 +1,13 @@
 cd /home/sharif/tester;
 ./tester.sh /home/sharif/assignments/assignment_4/p1 'balbertini' 'pcs7400' 'pcs7400-1' vhdl 0 1 50000 1048576 diff -bB 1 1 0 0 1 0
 Starting tester...
-Thu Oct 29 22:04:26 BRST 2015
+Thu Oct 29 22:01:58 BRST 2015
 Language: vhdl
 Time Limit: 0 s
 Memory Limit: 50000 kB
 Output size limit: 1048576 bytes
-pcs7400 Compiled. Exit Code=0  Execution Time: 588 ms
+pcs7400 Compiled. Exit Code=1  Execution Time: 86 ms
+Compilation Error
+ghdl: bad character in identifier
 
-Testing...
-0 test cases found
-
-Score from 10000: 
-
-Total Execution Time: 617 ms
+Total Execution Time: 138 ms

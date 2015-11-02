@@ -373,16 +373,20 @@ fi
 if [ "$EXT" = "vhdl" ]; then
 	cp $PROBLEMPATH/$UN/$FILENAME.vhdl $FILENAME.vhdl
 	ghdl -a $FILENAME.vhdl >/dev/null 2>cerr
-	ghdl -e $FILENAME
+	ghdl -e $MAINFILENAME >/dev/null 2>cerr
 	EXITCODE=$?
 	COMPILE_END_TIME=$(($(date +%s%N)/1000000));
-	shj_log "Syntax checked. Exit Code=$EXITCODE  Execution Time: $((COMPILE_END_TIME-COMPILE_BEGIN_TIME)) ms"
+	shj_log "$MAINFILENAME Compiled. Exit Code=$EXITCODE  Execution Time: $((COMPILE_END_TIME-COMPILE_BEGIN_TIME)) ms"
 	if [ $EXITCODE -ne 0 ]; then
-		shj_log "Compiling Error"
+		shj_log "Compilation Error"
 		shj_log "$(cat cerr | head -10)"
+		echo '<span class="shj_b">Compiling Error</span>' >$PROBLEMPATH/$UN/result.html
+		echo '<span class="shj_r">' >> $PROBLEMPATH/$UN/result.html
+		(cat cerr | head -10 | sed 's/&/\&amp;/g' | sed 's/</\&lt;/g' | sed 's/>/\&gt;/g' | sed 's/"/\&quot;/g') >> $PROBLEMPATH/$UN/result.html
+		echo "</span>" >> $PROBLEMPATH/$UN/result.html
 		cd ..
 		rm -r $JAIL >/dev¹null 2>/dev/null
-		shj_finish "Error"
+		shj_finish "Compilation Error"
 	fi
 fi
 
