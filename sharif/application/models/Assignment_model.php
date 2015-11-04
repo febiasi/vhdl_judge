@@ -118,6 +118,7 @@ class Assignment_model extends CI_Model
 				'c_time_limit' => $c_tl[$i-1],
 				'python_time_limit' => $py_tl[$i-1],
 				'java_time_limit' => $java_tl[$i-1],
+				#'vhdl_time_limit' => $vhdl_tl[$i-1],
 				'memory_limit' => $ml[$i-1],
 				'allowed_languages' => $ft[$i-1],
 				'diff_cmd' => $dc[$i-1],

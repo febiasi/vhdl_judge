@@ -94,7 +94,8 @@ class Queueprocess extends CI_Controller
 			elseif ($file_extension === 'py')
 				$time_limit = $problem['python_time_limit']/1000;
 			elseif ($file_extension === 'vhdl')
-				$time_limit = $problem['vhdl_time_limit']/1000;
+				#$time_limit = $problem['vhdl_time_limit']/1000;
+				$time_limit = 2;
 			$time_limit = round($time_limit, 3);
 			$time_limit_int = floor($time_limit) + 1;
 
@@ -118,7 +119,7 @@ class Queueprocess extends CI_Controller
 			shell_exec("cd $tester_path; rm -rf jail*");
 
 			// Saving judge result
-			if ( is_numeric($output) || $output === 'Compilation Error' || $output === 'Syntax Error' )
+			if ( is_numeric($output) || $output === 'Compilation Error' || $output === 'Syntax Error' || $output === 'TESTS = 0' )
 			{
 				shell_exec("mv $userdir/result.html $userdir/result-{$submit_id}.html");
 				shell_exec("mv $userdir/log $userdir/log-{$submit_id}");

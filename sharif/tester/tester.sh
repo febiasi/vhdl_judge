@@ -376,7 +376,7 @@ if [ "$EXT" = "vhdl" ]; then
 	ghdl -e $MAINFILENAME >/dev/null 2>cerr
 	EXITCODE=$?
 	COMPILE_END_TIME=$(($(date +%s%N)/1000000));
-	shj_log "$MAINFILENAME Compiled. Exit Code=$EXITCODE  Execution Time: $((COMPILE_END_TIME-COMPILE_BEGIN_TIME)) ms"
+	shj_log "Compiled. Exit Code=$EXITCODE  Execution Time: $((COMPILE_END_TIME-COMPILE_BEGIN_TIME)) ms"
 	if [ $EXITCODE -ne 0 ]; then
 		shj_log "Compilation Error"
 		shj_log "$(cat cerr | head -10)"
@@ -385,8 +385,8 @@ if [ "$EXT" = "vhdl" ]; then
 		(cat cerr | head -10 | sed 's/&/\&amp;/g' | sed 's/</\&lt;/g' | sed 's/>/\&gt;/g' | sed 's/"/\&quot;/g') >> $PROBLEMPATH/$UN/result.html
 		echo "</span>" >> $PROBLEMPATH/$UN/result.html
 		cd ..
-		rm -r $JAIL >/dev¹null 2>/dev/null
-		shj_finish "Compilation Error"
+		rm -r $JAIL >/dev/null 2>/dev/null
+		shj_finish "Compilation Error" #Do not change "Compilation Error"
 	fi
 fi
 
@@ -398,6 +398,10 @@ fi
 
 shj_log "\nTesting..."
 shj_log "$TST test cases found"
+
+if [ $TST = 0 ]; then
+	shj_log "\nNothing to test. Exiting..."
+fi
 
 echo "" >$PROBLEMPATH/$UN/result.html
 
@@ -609,7 +613,13 @@ done
 cd ..
 rm -r $JAIL >/dev/null 2>/dev/null # removing files
 
-((SCORE=PASSEDTESTS*10000/TST)) # give score from 10,000
+if [ $TST -ne 0 ]; then
+	((SCORE=PASSEDTESTS*10000/TST)) # give score from 10,000
+else
+	echo "TESTS = 0" >>$PROBLEMPATH/$UN/result.html
+	shj_finish "TESTS = 0"
+fi
+
 shj_log "\nScore from 10000: $SCORE"
 
 shj_finish $SCORE
