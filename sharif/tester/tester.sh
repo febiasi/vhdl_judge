@@ -397,13 +397,39 @@ fi
 ########################################################################################################
 
 shj_log "\nTesting..."
-shj_log "$TST test cases found"
 
-if [ $TST = 0 ]; then
-	shj_log "\nNothing to test. Exiting..."
+if [ "$EXT" = "vhdl" ] && [ -f "$PROBLEMPATH/pcs7400tb.vhdl" ]; then
+	shj_log "Tester file found. Copying tester to current directory."
+	cp $PROBLEMPATH/pcs7400tb.vhdl pcs7400tb.vhdl
+
+	shj_log "Compiling tester..."
+	TST_COMPILE_BEGIN_TIME=$(($(date +%s%N)/1000000));
+	ghdl -a pcs7400tb.vhdl
+	ghdl -e pcs7400tb
+	./pcs7400tb
+	EC=$?
+	TST_COMPILE_END_TIME=$(($(date +%s%N)/1000000));
+	if [ $EC -ne 0 ]; then
+			shj_log "Compiling tester failed."
+			echo "$EC" >> $PROBLEMPATH/$UN/result.html
+			cd ..
+			rm -r $JAIL >/dev/null 2>/dev/null
+			shj_finish "Invalid Tester Code"
+	else
+			shj_log "Tester compiled. Execution Time: $((TST_COMPILE_END_TIME-TST_COMPILE_BEGIN_TIME)) ms"
+			echo "VHDL OK" >> $PROBLEMPATH/$UN/result.html
+	fi
 fi
 
-echo "" >$PROBLEMPATH/$UN/result.html
+	
+if [ "$EXT" -ne "vhdl" ]; then
+	shj_log "$TST test cases found"
+	echo "" >$PROBLEMPATH/$UN/result.html
+else
+	shj_log "\nVHDL: Nothing to test."
+fi
+
+
 
 
 if [ -f "$PROBLEMPATH/tester.cpp" ] && [ ! -f "$PROBLEMPATH/tester.executable" ]; then
@@ -615,9 +641,9 @@ rm -r $JAIL >/dev/null 2>/dev/null # removing files
 
 if [ $TST -ne 0 ]; then
 	((SCORE=PASSEDTESTS*10000/TST)) # give score from 10,000
-else
-	echo "TESTS = 0" >>$PROBLEMPATH/$UN/result.html
-	shj_finish "TESTS = 0"
+elif [ "$EXT" = "vhdl" ] && [ $EC -eq 0 ]; then
+	SCORE=100
+	echo "SCORE=100" >>$PROBLEMPATH/$UN/result.html
 fi
 
 shj_log "\nScore from 10000: $SCORE"
