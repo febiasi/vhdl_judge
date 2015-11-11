@@ -150,6 +150,8 @@ function shj_finish
 
 #################### Initialization #####################
 
+echo "" >$PROBLEMPATH/$UN/result.html
+
 shj_log "Starting tester..."
 
 # detecting existence of perl
@@ -398,38 +400,35 @@ fi
 
 shj_log "\nTesting..."
 
-if [ "$EXT" = "vhdl" ] && [ -f "$PROBLEMPATH/pcs7400tb.vhdl" ]; then
+if [ "$EXT" = "vhdl" ] && [ -f "$PROBLEMPATH/testbench.vhdl" ]; then
 	shj_log "Tester file found. Copying tester to current directory."
-	cp $PROBLEMPATH/pcs7400tb.vhdl pcs7400tb.vhdl
+	cp $PROBLEMPATH/testbench.vhdl testbench.vhdl
 
 	shj_log "Compiling tester..."
 	TST_COMPILE_BEGIN_TIME=$(($(date +%s%N)/1000000));
-	ghdl -a pcs7400tb.vhdl
-	ghdl -e pcs7400tb
-	./pcs7400tb
+	ghdl -a testbench.vhdl
+	ghdl -e testbench
+	./testbench >> $PROBLEMPATH/$UN/result.html
 	EC=$?
 	TST_COMPILE_END_TIME=$(($(date +%s%N)/1000000));
-	if [ $EC -ne 0 ]; then
-			shj_log "Compiling tester failed."
-			echo "$EC" >> $PROBLEMPATH/$UN/result.html
-			cd ..
-			rm -r $JAIL >/dev/null 2>/dev/null
-			shj_finish "Invalid Tester Code"
+	if [ $EC /= "0" ]; then
+		shj_log "Compiling tester failed. EC = $EC"
+		echo "$EC" >> $PROBLEMPATH/$UN/result.html
+		cd ..
+		rm -r $JAIL >/dev/null 2>/dev/null
+		shj_finish "Invalid Tester Code"
 	else
-			shj_log "Tester compiled. Execution Time: $((TST_COMPILE_END_TIME-TST_COMPILE_BEGIN_TIME)) ms"
-			echo "VHDL OK" >> $PROBLEMPATH/$UN/result.html
+		shj_log "Tester compiled. EC = $EC . Execution Time: $((TST_COMPILE_END_TIME-TST_COMPILE_BEGIN_TIME)) ms"
+		echo "VHDL OK" >> $PROBLEMPATH/$UN/result.html
 	fi
+
 fi
+
 
 	
 if [ "$EXT" -ne "vhdl" ]; then
 	shj_log "$TST test cases found"
 	echo "" >$PROBLEMPATH/$UN/result.html
-else
-	shj_log "\nVHDL: Nothing to test."
-fi
-
-
 
 
 if [ -f "$PROBLEMPATH/tester.cpp" ] && [ ! -f "$PROBLEMPATH/tester.executable" ]; then
@@ -524,15 +523,7 @@ for((i=1;i<=TST;i++)); do
 			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "python3 -O $FILENAME.py"
 		fi
 		EXITCODE=$?
-
-	elif [ "$EXT" = "vhdl" ]; then
-		if $PERL_EXISTS; then
-			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT $FILENAME.vhdl"
-		else
-			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "$FILENAME.vhdl"
-		fi
-		EXITCODE=$?
-
+	
 	else
 		shj_log "File Format Not Supported"
 		cd ..
@@ -623,6 +614,8 @@ for((i=1;i<=TST;i++)); do
 	fi
 done
 
+fi
+
 
 # After I added the feature for showing java exception name and exception place,
 # I found that the way I am doing it is a security risk. So I added the file "tester/java_exceptions_list"
@@ -642,8 +635,8 @@ rm -r $JAIL >/dev/null 2>/dev/null # removing files
 if [ $TST -ne 0 ]; then
 	((SCORE=PASSEDTESTS*10000/TST)) # give score from 10,000
 elif [ "$EXT" = "vhdl" ] && [ $EC -eq 0 ]; then
-	SCORE=100
-	echo "SCORE=100" >>$PROBLEMPATH/$UN/result.html
+	SCORE=10000
+	echo "SCORE=10000" >>$PROBLEMPATH/$UN/result.html
 fi
 
 shj_log "\nScore from 10000: $SCORE"

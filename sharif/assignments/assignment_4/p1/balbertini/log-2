@@ -1,12 +1,12 @@
 cd /home/sharif/tester;
-./tester.sh /home/sharif/assignments/assignment_4/p1 'balbertini' 'pcs7400' 'pcs7400-1' vhdl 2 3 50000 1048576 diff -bB 1 1 0 0 1 0
+./tester.sh /home/sharif/assignments/assignment_4/p1 'balbertini' 'pcs7400' 'pcs7400-2' vhdl 2 3 50000 1048576 diff -bB 1 1 0 0 1 0
 Starting tester...
-Wed Nov 11 16:45:50 BRST 2015
+Wed Nov 11 16:46:18 BRST 2015
 Language: vhdl
 Time Limit: 2 s
 Memory Limit: 50000 kB
 Output size limit: 1048576 bytes
-Compiled. Exit Code=0  Execution Time: 88 ms
+Compiled. Exit Code=0  Execution Time: 81 ms
 
 Testing...
 Tester file found. Copying tester to current directory.
@@ -15,4 +15,4 @@ Tester compiled. EC = 0 . Execution Time: 95 ms
 
 Score from 10000: 10000
 
-Total Execution Time: 195 ms
+Total Execution Time: 188 ms
