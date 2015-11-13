@@ -1,5 +1,5 @@
 -- 1234567 Bruno Albertini / Felipe Biasi
--- testbench.vhdl
+-- 4 testes -  testbench.vhdl
 -- exemplo de teste sharif-judge
 entity testbench is end;
 

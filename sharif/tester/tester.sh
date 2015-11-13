@@ -150,8 +150,6 @@ function shj_finish
 
 #################### Initialization #####################
 
-echo "" >$PROBLEMPATH/$UN/result.html
-
 shj_log "Starting tester..."
 
 # detecting existence of perl
@@ -419,9 +417,16 @@ if [ "$EXT" = "vhdl" ] && [ -f "$PROBLEMPATH/testbench.vhdl" ]; then
 		shj_finish "Invalid Tester Code"
 	else
 		shj_log "Tester compiled. EC = $EC . Execution Time: $((TST_COMPILE_END_TIME-TST_COMPILE_BEGIN_TIME)) ms"
-		echo "VHDL OK" >> $PROBLEMPATH/$UN/result.html
 	fi
-
+	
+	SEARCH=`sed -n '1 p' $PROBLEMPATH/$UN/result.html`
+	if [ "$SEARCH" = "OK" ]; then
+		shj_log "Perfect"
+	else
+		NTST=`sed -n '2 p' testbench.vhdl | awk '{print $2}'`
+		NLINES=`wc -l $PROBLEMPATH/$UN/result.html | awk '{print $1}'`
+		shj_log "Not good... Search = $SEARCH , Tests = $NTST , Lines = $NLINES"
+	fi
 fi
 
 
@@ -633,10 +638,15 @@ cd ..
 rm -r $JAIL >/dev/null 2>/dev/null # removing files
 
 if [ $TST -ne 0 ]; then
-	((SCORE=PASSEDTESTS*10000/TST)) # give score from 10,000
+	((SCORE=PASSEDTESTS*10000/TST)) # give score from 10,000 by rounding issues
 elif [ "$EXT" = "vhdl" ] && [ $EC -eq 0 ]; then
-	SCORE=10000
-	echo "SCORE=10000" >>$PROBLEMPATH/$UN/result.html
+	if [ "$SEARCH" = "OK" ]; then 
+		SCORE=10000
+	else
+		((VAR=NTST-NLINES))
+		((SCORE=10000*VAR/NTST))
+	fi
+	echo "SCORE = $SCORE" >>$PROBLEMPATH/$UN/result.html
 fi
 
 shj_log "\nScore from 10000: $SCORE"
