@@ -78,7 +78,7 @@ class __TwigTemplate_055d26e1f593d544875fd8e1af38f7676b0807fe8bed9057d2ab2d77c73
 \t<td><input type=\"text\" name=\"c_time_limit[]\" class=\"sharif_input tiny2\" value=\"500\"/></td>\\
 \t<td><input type=\"text\" name=\"python_time_limit[]\" class=\"sharif_input tiny2\" value=\"1500\"/></td>\\
 \t<td><input type=\"text\" name=\"java_time_limit[]\" class=\"sharif_input tiny2\" value=\"2000\"/></td>\\
-\t<td><input type=\"text\" name=\"vhdl_time_limit[]\" class=\"sharif_input tiny2\" value=\"2000\"/></td>\\
+\t<td><input type=\"text\" name=\"vhdl_time_limit[]\" class=\"sharif_input tiny2\" value=\"3000\"/></td>\\
 \t<td><input type=\"text\" name=\"memory_limit[]\" class=\"sharif_input tiny\" value=\"50000\"/></td>\\
 \t<td><input type=\"text\" name=\"languages[]\" class=\"sharif_input short2\" value=\"C,C++,Python 2,Python 3,Java,VHDL\"/></td>\\
 \t<td><input type=\"text\" name=\"diff_cmd[]\" class=\"sharif_input tiny\" value=\"diff\"/></td>\\

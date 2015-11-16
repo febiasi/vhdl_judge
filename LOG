@@ -131,8 +131,7 @@ application/views/pages/submit.twig
 application/controllers/Queueprocess.php
 	96
 	elseif ($file_extension ==='vhdl')
-		#$time_limit = $problem['vhdl_time_limit']/1000;
-		$time_limit = 2;
+		$time_limit = $problem['vhdl_time_limit']/1000;
 	
 	122
  	...|| $output === 'Syntax Error' || $output === 'Invalid Tester Code' )
@@ -140,7 +139,7 @@ application/controllers/Queueprocess.php
 
 application/controllers/Assignments.php
 	309
-	'vhdl_time_limit' => 2000,
+	'vhdl_time_limit' => 3000,
 
 	311
 	...Python 3,Java,VHDL',
@@ -160,7 +159,7 @@ application/controllers/Assignments.php
 
 application/views/pages/admin/add_assignment.twig
 	30
-	<td><input type="text" name="vhdl_time_limit[]" class="sharif_input tiny2" value="2000"/></td>\
+	<td><input type="text" name="vhdl_time_limit[]" class="sharif_input tiny2" value="3000"/></td>\
 	
 	32
 	...Python 3,Java,VHDL"/></td>\
@@ -173,10 +172,8 @@ application/views/pages/admin/add_assignment.twig
 	
 	192
 	<td><input type="text" name="vhdl_time_limit[]" class="sharif_input tiny2" value="{{ problem.vhdl_time_limit }}"/></td>
-	ou
-	<td><input type="text" name="vhdl_time_limit[]" class="sharif_input tiny2" value="2000"/></td>
 	
-	209
+	208
 	{{ form_error('vhdl_time_limit[]', '<div class="shj_error">', '</div>') }}
 	
 
@@ -197,10 +194,12 @@ application/models/Assignment_model.php
 	107
 	...,'java','vhdl')) )
 	
-	121  ###ERRO!!!
+	121 (OK, após adicionar campo novo no banco de dados para vhdl_time_limit)
 	'vhdl_time_limit' => $vhdl_tl[$i-1],
 
-
+application/controllers/Install.php
+	139
+	'java_time_limit'   => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'default' => 3000),
 	
 
 	

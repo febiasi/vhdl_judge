@@ -306,7 +306,7 @@ class Assignments extends CI_Controller
 						'c_time_limit' => 500,
 						'python_time_limit' => 1500,
 						'java_time_limit' => 2000,
-						'vhdl_time_limit' => 2000,
+						'vhdl_time_limit' => 3000,
 						'memory_limit' => 50000,
 						'allowed_languages' => 'C,C++,Python 2,Python 3,Java,VHDL',
 						'diff_cmd' => 'diff',
